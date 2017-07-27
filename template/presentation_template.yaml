@@ -5,6 +5,13 @@ metadata:
   name: presentation
 objects:
 - apiVersion: v1
+  kind: Secret
+  metadata:
+    name: 3scale-secret
+    namespace: desktop-project
+  stringData:
+    user_key: ${USER_KEY_VALUE}
+- apiVersion: v1
   kind: BuildConfig
   metadata:
     annotations:
@@ -105,7 +112,7 @@ objects:
             valueFrom:
                 secretKeyRef:
                     name: 3scale-secret
-                    key: user_key            
+                    key: user_key
           imagePullPolicy: Always
           name: presentation
           ports:
@@ -183,3 +190,6 @@ objects:
     type: ClusterIP
   status:
     loadBalancer: {}
+parameters:
+  - name: USER_KEY_VALUE
+    description: store the user_key to authenticate in 3scale API gateway
